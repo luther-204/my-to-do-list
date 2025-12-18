@@ -1,84 +1,99 @@
 window.onload = function() {
     const input = document.getElementById("todoInput");
+    const subInput = document.getElementById("subTaskInput");
     const addBtn = document.getElementById("addBtn");
     const todoList = document.getElementById("todoList");
     const clearBtn = document.getElementById("clearBtn");
 
-    // ดึงตัวแปรเสียงมาเก็บไว้
-    const addSound = document.getElementById("addSound");
-    const deleteSound = document.getElementById("deleteSound");
-    const clearSound = document.getElementById("clearSound");
+    const globalVolume = 0.2; 
 
-    addSound.volume = 0.2; // ลดระดับเสียงลง
-    deleteSound.volume = 0.2; // ลดระดับเสียงลบลง
-    clearSound.volume = 0.2; // ลดระดับเสียงลงทั้งหมด
-
-    function loadTasks() {
-        const savedTasks = JSON.parse(localStorage.getItem("myNeonTasks")) || [];
-        savedTasks.forEach(task => {
-            createTaskElement(task.text, task.completed);
-        });
+    function playTone(freq) {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            gain.gain.setValueAtTime(globalVolume, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.5);
+        } catch (e) { console.log("Audio Error"); }
     }
 
-    function saveTasks() {
-        const tasks = [];
-        document.querySelectorAll("#todoList li").forEach(li => {
-            tasks.push({
-                text: li.querySelector("span").innerText,
-                completed: li.classList.contains("done")
-            });
-        });
-        localStorage.setItem("myNeonTasks", JSON.stringify(tasks));
-    }
-
-    function createTaskElement(text, isCompleted = false) {
+    function createTaskElement(mainText, subText, completed) {
         const li = document.createElement("li");
-        if (isCompleted) li.classList.add("done");
-
+        if (completed) li.classList.add("done");
+        
         li.innerHTML = `
-            <span>${text}</span>
+            <div class="task-content">
+                <div class="main-task">${mainText}</div>
+                ${subText ? `<div class="sub-task">${subText}</div>` : ''}
+            </div>
             <button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
         `;
 
-        li.onclick = function() {
-            this.classList.toggle("done");
-            addSound.currentTime = 0; // รีเซ็ตเสียงให้เริ่มใหม่ทันทีที่กด
-            addSound.play(); // เล่นเสียงเบาๆ ตอนติ๊กงาน
-            saveTasks();
+        li.onclick = () => { 
+            li.classList.toggle("done"); 
+            playTone(880); 
+            saveTasks(); 
         };
 
-        li.querySelector(".delete-btn").onclick = function(e) {
-            e.stopPropagation();
-            deleteSound.currentTime = 0;
-            deleteSound.play(); // เล่นเสียงตอนลบ
-            li.remove();
-            saveTasks();
+        li.querySelector(".delete-btn").onclick = (e) => { 
+            e.stopPropagation(); 
+            playTone(440);
+            li.remove(); 
+            saveTasks(); 
         };
-
         todoList.appendChild(li);
     }
 
-    addBtn.onclick = function() {
-        if (input.value.trim() === "") {
-            alert("พิมพ์อะไรสักหน่อยสิ!");
-            return;
-        }
-        addSound.currentTime = 0;
-        addSound.play(); // เล่นเสียงตอนเพิ่มรายการ
-        createTaskElement(input.value.trim());
+    function saveTasks() {
+        const tasks = Array.from(document.querySelectorAll("#todoList li")).map(li => ({
+            main: li.querySelector(".main-task").innerText,
+            sub: li.querySelector(".sub-task") ? li.querySelector(".sub-task").innerText : "",
+            completed: li.classList.contains("done")
+        }));
+        localStorage.setItem("myNeonTasksSub", JSON.stringify(tasks));
+    }
+
+    addBtn.onclick = () => {
+        const mainText = input.value.trim();
+        const subText = subInput.value.trim();
+        if (!mainText) return;
+
+        createTaskElement(mainText, subText, false);
+        playTone(660);
         saveTasks();
         input.value = "";
+        subInput.value = "";
     };
+    window.onload = () => {
+input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addBtn.click(); 
+    }
+});
 
-    clearBtn.onclick = function() {
-        if (todoList.children.length > 0) {
-            if (confirm("จะล้างกระดานจริงๆ ใช่ไหม?")) {
-                clearSound.play(); // เล่นเสียงตอนล้างทั้งหมด
-                todoList.innerHTML = "";
-                localStorage.removeItem("myNeonTasks");
-            }
+subInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addBtn.click();
+    }
+});
+    }
+
+    clearBtn.onclick = () => {
+        if (todoList.children.length > 0 && confirm("ล้างทั้งหมด?")) {
+            playTone(220);
+            todoList.innerHTML = "";
+            localStorage.removeItem("myNeonTasksSub");
         }
     };
 
-    loadTasks();
+    const saved = JSON.parse(localStorage.getItem("myNeonTasksSub")) || [];
+    saved.forEach(t => createTaskElement(t.main, t.sub, t.completed));
 };
