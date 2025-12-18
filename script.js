@@ -26,7 +26,6 @@ window.onload = function() {
     function createTaskElement(mainText, subText, completed) {
         const li = document.createElement("li");
         if (completed) li.classList.add("done");
-        
         li.innerHTML = `
             <div class="task-content">
                 <div class="main-task">${mainText}</div>
@@ -34,13 +33,7 @@ window.onload = function() {
             </div>
             <button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
         `;
-
-        li.onclick = () => { 
-            li.classList.toggle("done"); 
-            playTone(880); 
-            saveTasks(); 
-        };
-
+        li.onclick = () => { li.classList.toggle("done"); playTone(880); saveTasks(); };
         li.querySelector(".delete-btn").onclick = (e) => { 
             e.stopPropagation(); 
             playTone(440);
@@ -63,28 +56,17 @@ window.onload = function() {
         const mainText = input.value.trim();
         const subText = subInput.value.trim();
         if (!mainText) return;
-
         createTaskElement(mainText, subText, false);
         playTone(660);
         saveTasks();
-        input.value = "";
-        subInput.value = "";
+        input.value = ""; subInput.value = "";
     };
-    window.onload = () => {
-input.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        addBtn.click(); 
-    }
-});
 
-subInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        addBtn.click();
-    }
-});
-    }
+    [input, subInput].forEach(el => {
+        el.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") addBtn.click();
+        });
+    });
 
     clearBtn.onclick = () => {
         if (todoList.children.length > 0 && confirm("ล้างทั้งหมด?")) {
