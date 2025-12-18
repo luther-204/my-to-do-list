@@ -1,0 +1,134 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+body {
+    /* ใส่รูปพื้นหลังแนว Cyber/Tech */
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1); /* กระจกใส */
+    backdrop-filter: blur(20px); /* ความเบลอของกระจก */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3); /* เงาสีชมพูนีออน */
+    text-align: center;
+}
+
+h2 {
+    color: #00ffcc; /* เขียวมิ้นท์นีออน */
+    text-shadow: 0 0 10px #00ffcc;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid #ff00ff; /* ขอบชมพูนีออน */
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    box-shadow: 0 0 15px #ff00ff;
+}
+
+#addBtn {
+    background: #00ffcc;
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00ffcc;
+    transition: 0.3s;
+}
+
+#addBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #00ffcc;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto; /* เพิ่ม Scrollbar ถ้างานเยอะ */
+}
+
+li {
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #ff00ff;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.done span {
+    text-decoration: line-through;
+    color: rgba(255,255,255,0.3);
+}
+
+.delete-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#clearBtn {
+    width: 100%;
+    background: transparent;
+    color: #ff00ff;
+    border: 2px solid #ff00ff;
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#clearBtn:hover {
+    background: #ff00ff;
+    color: white;
+    box-shadow: 0 0 20px #ff00ff;
+}
