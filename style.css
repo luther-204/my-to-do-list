@@ -1,134 +1,65 @@
-* {
-    box-sizing: border-box;
-    font-family: 'Kanit', sans-serif;
-}
+* { box-sizing: border-box; font-family: 'Kanit', sans-serif; }
 
 body {
-    /* ใส่รูปพื้นหลังแนว Cyber/Tech */
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                 url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    background-size: cover; background-position: center; background-attachment: fixed;
+    display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1); /* กระจกใส */
-    backdrop-filter: blur(20px); /* ความเบลอของกระจก */
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 40px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3); /* เงาสีชมพูนีออน */
-    text-align: center;
+    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2); padding: 40px; border-radius: 25px;
+    width: 90%; max-width: 450px; box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
 }
 
-h2 {
-    color: #00ffcc; /* เขียวมิ้นท์นีออน */
-    text-shadow: 0 0 10px #00ffcc;
-    margin-bottom: 30px;
-    font-size: 28px;
+h2 { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; text-align: center; margin-bottom: 30px; }
+
+.input-group { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+
+input[type="text"] {
+    flex: 1; background: rgba(255, 255, 255, 0.15); border: 2px solid #ff00ff;
+    padding: 12px; border-radius: 12px; color: white; outline: none;
 }
 
-.input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-input {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid #ff00ff; /* ขอบชมพูนีออน */
-    padding: 12px;
-    border-radius: 12px;
-    color: white;
-    outline: none;
-    transition: 0.3s;
-}
-
-input:focus {
-    box-shadow: 0 0 15px #ff00ff;
+.custom-file-upload {
+    padding: 12px; cursor: pointer; color: #00ffcc; border: 2px solid #00ffcc;
+    border-radius: 12px; transition: 0.3s;
 }
 
 #addBtn {
-    background: #00ffcc;
-    color: #1a1a1a;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 10px #00ffcc;
-    transition: 0.3s;
-}
-
-#addBtn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #00ffcc;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    max-height: 300px;
-    overflow-y: auto; /* เพิ่ม Scrollbar ถ้างานเยอะ */
+    background: #00ffcc; color: #1a1a1a; border: none; padding: 12px 20px;
+    border-radius: 12px; cursor: pointer; font-weight: bold;
 }
 
 li {
-    background: rgba(255, 255, 255, 0.05);
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 12px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 4px solid #ff00ff;
-    animation: slideIn 0.3s ease;
+    background: rgba(255, 255, 255, 0.05); margin-bottom: 10px; padding: 12px;
+    border-radius: 12px; color: white; display: flex; justify-content: space-between;
+    align-items: center; border-left: 4px solid #ff00ff;
+transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(-20px); }
-    to { opacity: 1; transform: translateX(0); }
+li.done {
+    opacity: 0.6;
+    transform: scale(0.98);
 }
 
-.done span {
-    text-decoration: line-through;
-    color: rgba(255,255,255,0.3);
-}
+.task-img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; margin-right: 15px; border: 1px solid #00ffcc; }
 
-.delete-btn {
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+.done span { text-decoration: line-through; color: rgba(255,255,255,0.3); }
 
-#clearBtn {
-    width: 100%;
-    background: transparent;
-    color: #ff00ff;
-    border: 2px solid #ff00ff;
-    padding: 10px;
-    border-radius: 12px;
-    margin-top: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
+.volume-control { margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: #00ffcc; }
 
-#clearBtn:hover {
-    background: #ff00ff;
-    color: white;
-    box-shadow: 0 0 20px #ff00ff;
-}
+#clearBtn { width: 100%; background: transparent; color: #ff00ff; border: 2px solid #ff00ff; padding: 12px; border-radius: 12px; cursor: pointer; }
+
+.input-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+.task-content { display: flex; flex-direction: column; flex: 1; }
+
+.main-task { font-weight: 500; font-size: 1.1rem; color: #00ffcc; }
+
+.sub-task { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-top: 4px; border-left: 2px solid rgba(0, 255, 204, 0.3); padding-left: 8px; }
+
+li { align-items: flex-start; }
+
+.delete-btn { margin-top: 5px; }
